@@ -16,7 +16,24 @@ function evaluateGuess(guess, correctAnswer) {
   }
 }
 
+function createDeck() {
+  let deck = [];
+  return deck;
+}
+
+function addCardToDeck(deck, card) {
+  deck.push(card);
+}
+
+function countCards(deck) {
+  let cardCount = deck.length;
+  return cardCount;
+}
+
 module.exports = {
   createCard,
-  evaluateGuess
+  evaluateGuess,
+  createDeck,
+  addCardToDeck,
+  countCards
 }
