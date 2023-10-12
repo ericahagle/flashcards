@@ -37,6 +37,7 @@ function createRound(deck) {
 
 function takeTurn(guess, round) {
   const result = evaluateGuess(guess, round.currentCard.correctAnswer);
+  const isCorrect = result === 'correct!' ? 'correct!' : 'incorrect!';
 
   if (result === 'incorrect!') {
     round.incorrectGuesses.push(round.currentCard.id);
@@ -48,9 +49,13 @@ function takeTurn(guess, round) {
     round.currentCard = round.deck[round.turns];
   } else {
     round.currentCard = null;
+    endRound(round);
   }
 
-  return round;
+  return {
+    round,
+    result: isCorrect
+  };
 }
 
 function calculatePercentCorrect(round) {
