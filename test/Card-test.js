@@ -215,5 +215,41 @@ describe('cards', function() {
       takeTurn(guess4, round);
       expect(calculatePercentCorrect(round)).to.deep.equal(50);
     });
+    
+    it('should let the player know that the round has ended', function() {
+      const card1 = createCard(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+      const card2 = createCard(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+      const card3 = createCard(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+      const card4 = createCard(3, 'What is Travis\'s favorite stress reliever?', ['listening to music', 'watching Netflix', 'playing with bubble wrap'], 'playing with bubble wrap');
+
+      const deck = createDeck();
+
+      addCardToDeck(deck, card1);
+      addCardToDeck(deck, card2);
+      addCardToDeck(deck, card3);
+      addCardToDeck(deck, card4);
+
+      const round = createRound(deck);
+
+      const guess = 'sea otter';
+      takeTurn(guess, round);
+      calculatePercentCorrect(round);
+      expect(endRound(round)).to.deep.equal('**Round over!** You answered 100% of the questions correctly!');
+
+      const guess2 = 'spleen';
+      takeTurn(guess2, round);
+      calculatePercentCorrect(round);
+      expect(endRound(round)).to.deep.equal('**Round over!** You answered 50% of the questions correctly!');
+
+      const guess3 = 'Lex';
+      takeTurn(guess3, round);
+      calculatePercentCorrect(round);
+      expect(endRound(round)).to.deep.equal('**Round over!** You answered 33.33333333333334% of the questions correctly!');
+
+      const guess4 = 'playing with bubble wrap';
+      takeTurn(guess4, round);
+      calculatePercentCorrect(round);
+      expect(endRound(round)).to.deep.equal('**Round over!** You answered 50% of the questions correctly!');
+    });
   });
 });

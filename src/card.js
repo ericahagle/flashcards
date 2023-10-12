@@ -63,9 +63,9 @@ function calculatePercentCorrect(round) {
   return result;
 }
 
-// function endRound(round) {
-
-// }
+function endRound(round) {
+    return `**Round over!** You answered ${100 - calculatePercentCorrect(round)}% of the questions correctly!`
+}
 
 module.exports = {
   createCard,
@@ -76,5 +76,5 @@ module.exports = {
   createRound,
   takeTurn,
   calculatePercentCorrect,
-  // endRound
+  endRound
 }
