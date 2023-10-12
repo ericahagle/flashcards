@@ -51,14 +51,17 @@ function takeTurn(guess, round) {
 
   if (round.turns < round.deck.length) {
     round.currentCard = round.deck[round.turns];
+  } else {
+    round.currentCard = null;
   }
-  
+
   return round;
 }
 
-// function calculatePercentCorrect(round) {
-
-// }
+function calculatePercentCorrect(round) {
+  const result = (round.incorrectGuesses.length / round.turns) * 100;
+  return result;
+}
 
 // function endRound(round) {
 
@@ -72,6 +75,6 @@ module.exports = {
   countCards,
   createRound,
   takeTurn,
-  // calculatePercentCorrect,
+  calculatePercentCorrect,
   // endRound
 }
