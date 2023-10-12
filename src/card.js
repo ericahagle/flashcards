@@ -16,24 +16,19 @@ function evaluateGuess(guess, correctAnswer) {
   }
 }
 
-function createDeck() {
-  let deck = [];
-  return deck;
-}
-
-function addCardToDeck(deck, card) {
-  deck.push(card);
+function createDeck(cards){
+  return { cards: cards }
 }
 
 function countCards(deck) {
-  let cardCount = deck.length;
+  let cardCount = deck.cards.length;
   return cardCount;
 }
 
 function createRound(deck) {
   let round = {
-    deck: deck,
-    currentCard: deck[0],
+    deck: deck.cards,
+    currentCard: deck.cards[0],
     turns: 0,
     incorrectGuesses: []
   }
@@ -71,7 +66,6 @@ module.exports = {
   createCard,
   evaluateGuess,
   createDeck,
-  addCardToDeck,
   countCards,
   createRound,
   takeTurn,
