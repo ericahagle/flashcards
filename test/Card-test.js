@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { createCard, evaluateGuess, createDeck, addCardToDeck, countCards } = require('../src/card');
+const { createCard, evaluateGuess, createDeck, addCardToDeck, countCards, createRound, takeTurn, calculatePercentCorrect, endRound } = require('../src/card');
 
 describe('cards', function() {
   describe('card creation', function() {
@@ -108,6 +108,110 @@ describe('cards', function() {
 
       addCardToDeck(deck, card3);
       expect(countCards(deck)).to.deep.equal(3);
+    });
+  });
+
+  describe('rounds', function() {
+    it('should create a round', function() {
+      const card1 = createCard(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+      const card2 = createCard(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+      const card3 = createCard(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+
+      const deck = createDeck();
+
+      addCardToDeck(deck, card1);
+      addCardToDeck(deck, card2);
+      addCardToDeck(deck, card3);
+
+      const round = createRound(deck);
+
+      expect(round.deck).to.deep.equal([card1, card2, card3]);
+      expect(round.currentCard).to.deep.equal({
+        id: 1,
+        question: "What is Robbie's favorite animal",
+        answers: ['sea otter', 'pug', 'capybara'],
+        correctAnswer: 'sea otter'
+      });
+      expect(round.turns).to.deep.equal(0);
+      expect(round.incorrectGuesses).to.deep.equal([]);
+    });
+
+    it('should take a turn and add to incorrect guesses if the guess is wrong', function() {
+      const card1 = createCard(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
+      const card2 = createCard(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+      const card3 = createCard(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+
+      const deck = createDeck();
+
+      addCardToDeck(deck, card1);
+      addCardToDeck(deck, card2);
+      addCardToDeck(deck, card3);
+
+      const round = createRound(deck);
+
+      const guess = 'sea otter';
+      expect(takeTurn(guess, round)).to.deep.equal({
+        deck: [
+          {
+            id: 1,
+            question: "What is Robbie's favorite animal",
+            answers: ['sea otter', 'pug', 'capybara'],
+            correctAnswer: 'sea otter'
+          },
+          {
+            id: 14,
+            question: 'What organ is Khalid missing?',
+            answers: ['spleen', 'appendix', 'gallbladder'],
+            correctAnswer: 'gallbladder'
+          },
+          {
+            id: 12,
+            question: "What is Travis's middle name?",
+            answers: ['Lex', 'William', 'Fitzgerald'],
+            correctAnswer: 'Fitzgerald'
+          }
+        ],
+        currentCard: {
+          id: 14,
+          question: "What organ is Khalid missing?",
+          answers: [ 'spleen', 'appendix', 'gallbladder' ],
+          correctAnswer: 'gallbladder'
+        },
+        turns: 1,
+        incorrectGuesses: []
+      });
+
+      const guess2 = 'spleen';
+      expect(takeTurn(guess2, round)).to.deep.equal({
+        deck: [
+          {
+            id: 1,
+            question: "What is Robbie's favorite animal",
+            answers: ['sea otter', 'pug', 'capybara'],
+            correctAnswer: 'sea otter'
+          },
+          {
+            id: 14,
+            question: 'What organ is Khalid missing?',
+            answers: ['spleen', 'appendix', 'gallbladder'],
+            correctAnswer: 'gallbladder'
+          },
+          {
+            id: 12,
+            question: "What is Travis's middle name?",
+            answers: ['Lex', 'William', 'Fitzgerald'],
+            correctAnswer: 'Fitzgerald'
+          }
+        ],
+        currentCard: {
+          id: 12,
+          question: "What is Travis's middle name?",
+          answers: ['Lex', 'William', 'Fitzgerald'],
+          correctAnswer: 'Fitzgerald'
+        },
+        turns: 2,
+        incorrectGuesses: [14]
+      });
     });
   });
 });
