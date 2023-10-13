@@ -104,43 +104,36 @@ describe('cards', function() {
       const card3 = createCard(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
 
       const deck = createDeck([card1, card2, card3]);
-
       const round = createRound(deck);
-
       const guess = 'sea otter';
-      expect(takeTurn(guess, round)).to.deep.equal({
-        deck: [card1, card2, card3],
-        currentCard: {
-          id: 14,
-          question: "What organ is Khalid missing?",
-          answers: [ 'spleen', 'appendix', 'gallbladder' ],
-          correctAnswer: 'gallbladder'
-        },
-        turns: 1,
-        incorrectGuesses: []
-      });
-
       const guess2 = 'spleen';
-      expect(takeTurn(guess2, round)).to.deep.equal({
-        deck: [card1, card2, card3],
-        currentCard: {
-          id: 12,
-          question: "What is Travis's middle name?",
-          answers: ['Lex', 'William', 'Fitzgerald'],
-          correctAnswer: 'Fitzgerald'
-        },
-        turns: 2,
-        incorrectGuesses: [14]
+      const guess3 = 'Lex';
+    
+      expect(takeTurn(guess, round)).to.deep.equal('correct!');
+      expect(round.turns).to.deep.equal(1);
+      expect(round.incorrectGuesses).to.deep.equal([]);
+      expect(round.currentCard).to.deep.equal({
+        id: 1,
+        question: "What is Robbie's favorite animal",
+        answers: ['sea otter', 'pug', 'capybara'],
+        correctAnswer: 'sea otter'
       });
 
-      const guess3 = 'Lex';
-      expect(takeTurn(guess3, round)).to.deep.equal({
-        deck: [card1, card2, card3],
-        currentCard: null,
-        turns: 3,
-        incorrectGuesses: [14, 12]
+      expect(takeTurn(guess2, round)).to.deep.equal('incorrect!');
+      expect(round.turns).to.deep.equal(2);
+      expect(round.incorrectGuesses).to.deep.equal([14]);
+      expect(round.currentCard).to.deep.equal({
+        id: 14,
+        question: 'What organ is Khalid missing?',
+        answers: [ 'spleen', 'appendix', 'gallbladder' ],
+        correctAnswer: 'gallbladder'
       });
-    });
+
+      expect(takeTurn(guess3, round)).to.deep.equal('incorrect!');
+      expect(round.turns).to.deep.equal(3);
+      expect(round.incorrectGuesses).to.deep.equal([14, 12]);
+      expect(round.currentCard).to.deep.equal(undefined);
+  });
 
     it('should calculate and return the percentage of correct guesses', function() {
       const card1 = createCard(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');

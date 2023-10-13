@@ -1,7 +1,7 @@
 const data = require('./data');
 const prototypeQuestions = data.prototypeData;
 const util = require('./util');
-const { createCard, evaluateGuess, createDeck, countCards, createRound, takeTurn, calculatePercentCorrect, endRound } = require('./card');
+const { createDeck, countCards, createRound, takeTurn } = require('./card');
 
 function printMessage(deck) {
   console.log(`-----------------------------------------------------
@@ -18,7 +18,6 @@ function start() {
   const round = createRound(deck);
   printMessage(deck);
   printQuestion(round);
-  takeTurn(0, round);
 }
 
 module.exports = { printMessage, printQuestion, start };

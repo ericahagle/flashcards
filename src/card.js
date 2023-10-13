@@ -37,34 +37,26 @@ function createRound(deck) {
 
 function takeTurn(guess, round) {
   const result = evaluateGuess(guess, round.currentCard.correctAnswer);
-  const isCorrect = result === 'correct!' ? 'correct!' : 'incorrect!';
 
   if (result === 'incorrect!') {
     round.incorrectGuesses.push(round.currentCard.id);
-  }
+  } 
 
   round.turns++;
+  round.currentCard = round.deck[round.turns -1];
 
-  if (round.turns < round.deck.length) {
-    round.currentCard = round.deck[round.turns];
-  } else {
-    round.currentCard = null;
-    endRound(round);
-  }
-
-  return {
-    round,
-    result: isCorrect
-  };
+  return result;
 }
 
 function calculatePercentCorrect(round) {
-  const result = (round.incorrectGuesses.length / round.turns) * 100;
+  const result = ((round.deck.length - round.incorrectGuesses.length) / round.deck.length) * 100;
   return result;
 }
 
 function endRound(round) {
-    return `**Round over!** You answered ${100 - calculatePercentCorrect(round)}% of the questions correctly!`
+  const finalMessage = `**Round over!** You answered ${calculatePercentCorrect(round)}% of the questions correctly!`;
+  console.log(finalMessage);
+  return finalMessage;
 }
 
 module.exports = {
