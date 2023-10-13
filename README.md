@@ -4,7 +4,7 @@
 This app simulates a set of flash cards through the command line! You will be able to see the questions, take guesses, and see a final score at the end of the round.
 
 ## App Preview
-
+https://github.com/ericahagle/flashcards/assets/133910120/ccf279b6-e64d-46ed-9819-e082f91582bb
 
 ## Technologies Used
 This app was built using JavaScript, and tested with Mocha/Chai.
