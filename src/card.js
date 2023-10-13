@@ -16,7 +16,7 @@ function evaluateGuess(guess, correctAnswer) {
   }
 }
 
-function createDeck(cards){
+function createDeck(cards) {
   return { cards: cards }
 }
 
@@ -40,7 +40,7 @@ function takeTurn(guess, round) {
 
   if (result === 'incorrect!') {
     round.incorrectGuesses.push(round.currentCard.id);
-  } 
+  }
 
   round.turns++;
   round.currentCard = round.deck[round.turns];
