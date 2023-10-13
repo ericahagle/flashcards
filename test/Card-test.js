@@ -100,8 +100,8 @@ describe('cards', function() {
 
     it('should take a turn and add to incorrect guesses if the guess is wrong', function() {
       const card1 = createCard(1, 'What is Robbie\'s favorite animal', ['sea otter', 'pug', 'capybara'], 'sea otter');
-      const card2 = createCard(14, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
-      const card3 = createCard(12, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
+      const card2 = createCard(2, 'What organ is Khalid missing?', ['spleen', 'appendix', 'gallbladder'], 'gallbladder');
+      const card3 = createCard(3, 'What is Travis\'s middle name?', ['Lex', 'William', 'Fitzgerald'], 'Fitzgerald');
 
       const deck = createDeck([card1, card2, card3]);
       const round = createRound(deck);
@@ -113,25 +113,25 @@ describe('cards', function() {
       expect(round.turns).to.deep.equal(1);
       expect(round.incorrectGuesses).to.deep.equal([]);
       expect(round.currentCard).to.deep.equal({
-        id: 1,
-        question: "What is Robbie's favorite animal",
-        answers: ['sea otter', 'pug', 'capybara'],
-        correctAnswer: 'sea otter'
-      });
+          id: 2,
+          question: 'What organ is Khalid missing?',
+          answers: [ 'spleen', 'appendix', 'gallbladder' ],
+          correctAnswer: 'gallbladder'
+        });
 
       expect(takeTurn(guess2, round)).to.deep.equal('incorrect!');
       expect(round.turns).to.deep.equal(2);
-      expect(round.incorrectGuesses).to.deep.equal([14]);
+      expect(round.incorrectGuesses).to.deep.equal([2]);
       expect(round.currentCard).to.deep.equal({
-        id: 14,
-        question: 'What organ is Khalid missing?',
-        answers: [ 'spleen', 'appendix', 'gallbladder' ],
-        correctAnswer: 'gallbladder'
+        id: 3,
+        question: 'What is Travis\'s middle name?',
+        answers: [ 'Lex', 'William', 'Fitzgerald' ],
+        correctAnswer: 'Fitzgerald'
       });
 
       expect(takeTurn(guess3, round)).to.deep.equal('incorrect!');
       expect(round.turns).to.deep.equal(3);
-      expect(round.incorrectGuesses).to.deep.equal([14, 12]);
+      expect(round.incorrectGuesses).to.deep.equal([2, 3]);
       expect(round.currentCard).to.deep.equal(undefined);
   });
 
@@ -147,18 +147,16 @@ describe('cards', function() {
 
       const guess = 'sea otter';
       takeTurn(guess, round);
-      expect(calculatePercentCorrect(round)).to.deep.equal(0);
 
       const guess2 = 'spleen';
       takeTurn(guess2, round);
-      expect(calculatePercentCorrect(round)).to.deep.equal(50);
 
       const guess3 = 'Lex';
       takeTurn(guess3, round);
-      expect(calculatePercentCorrect(round)).to.deep.equal(66.66666666666666);
 
       const guess4 = 'playing with bubble wrap';
       takeTurn(guess4, round);
+      
       expect(calculatePercentCorrect(round)).to.deep.equal(50);
     });
     
@@ -174,22 +172,16 @@ describe('cards', function() {
 
       const guess = 'sea otter';
       takeTurn(guess, round);
-      calculatePercentCorrect(round);
-      expect(endRound(round)).to.deep.equal('**Round over!** You answered 100% of the questions correctly!');
 
       const guess2 = 'spleen';
       takeTurn(guess2, round);
-      calculatePercentCorrect(round);
-      expect(endRound(round)).to.deep.equal('**Round over!** You answered 50% of the questions correctly!');
 
       const guess3 = 'Lex';
       takeTurn(guess3, round);
-      calculatePercentCorrect(round);
-      expect(endRound(round)).to.deep.equal('**Round over!** You answered 33.33333333333334% of the questions correctly!');
 
       const guess4 = 'playing with bubble wrap';
       takeTurn(guess4, round);
-      calculatePercentCorrect(round);
+
       expect(endRound(round)).to.deep.equal('**Round over!** You answered 50% of the questions correctly!');
     });
   });

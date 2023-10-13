@@ -43,7 +43,7 @@ function takeTurn(guess, round) {
   } 
 
   round.turns++;
-  round.currentCard = round.deck[round.turns -1];
+  round.currentCard = round.deck[round.turns];
 
   return result;
 }
@@ -55,7 +55,6 @@ function calculatePercentCorrect(round) {
 
 function endRound(round) {
   const finalMessage = `**Round over!** You answered ${calculatePercentCorrect(round)}% of the questions correctly!`;
-  console.log(finalMessage);
   return finalMessage;
 }
 
